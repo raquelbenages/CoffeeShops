@@ -18,7 +18,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -128,7 +131,7 @@ fun CafeCardSimple(
                 contentScale = ContentScale.Crop
             )
             Column(Modifier.padding(16.dp)) {
-                Text(nombre, style = MaterialTheme.typography.titleMedium)
+                Text(nombre, fontFamily = FontFamily(Font(R.font.aliviaregular)),fontSize = 30.sp,)
                 Text(lugar, style = MaterialTheme.typography.bodyMedium)
                 Spacer(Modifier.height(8.dp))
                 RatingBarSimple(value = rating, onChange = { rating = it })
