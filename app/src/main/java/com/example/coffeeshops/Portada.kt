@@ -3,6 +3,7 @@ package com.example.coffeeshops
 import android.net.Uri
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -16,6 +17,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.Font
@@ -63,6 +65,14 @@ fun CoffeeShopsApp() {
 fun MyTopAppBar(title: String) {
     var show by remember { mutableStateOf(false) }
     TopAppBar(
+        modifier = Modifier
+            .background(Color(0xFFFF80AB)),
+            colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = Color(0xFFFF80AB),
+            titleContentColor = Color.White,
+            navigationIconContentColor = Color.White,
+            actionIconContentColor = Color.White
+        ),
         title = { Text(title) },
         navigationIcon = {
             IconButton(onClick = { /* no-op */ }) { Icon(Icons.Filled.Menu, null) }
@@ -132,8 +142,9 @@ fun CafeCardSimple(
             )
             Column(Modifier.padding(16.dp)) {
                 Text(nombre, fontFamily = FontFamily(Font(R.font.aliviaregular)),fontSize = 30.sp,)
+                Spacer(Modifier.height(15.dp))
                 Text(lugar, style = MaterialTheme.typography.bodyMedium)
-                Spacer(Modifier.height(8.dp))
+                Spacer(Modifier.height(12.dp))
                 RatingBarSimple(value = rating, onChange = { rating = it })
                 Spacer(Modifier.height(8.dp))
                 HorizontalDivider()
@@ -147,19 +158,24 @@ fun CafeCardSimple(
 }
 
 @Composable
-fun RatingBarSimple(value: Int, onChange: (Int) -> Unit, max: Int = 5) {
+fun RatingBarSimple(
+    value: Int,
+    onChange: (Int) -> Unit,
+    max: Int = 5
+) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         repeat(max) { i ->
             val pos = i + 1
+            val filled = value >= pos
             Icon(
-                imageVector = if (value >= pos) Icons.Filled.Star else Icons.Outlined.Star,
+                imageVector = if (filled) Icons.Filled.Star else Icons.Outlined.Star,
                 contentDescription = null,
+                tint = if (filled) Color(0xFFFFD600) else Color.LightGray,
                 modifier = Modifier
-                    .size(24.dp)
+                    .size(28.dp)
                     .clickable { onChange(pos) }
             )
         }
-        Spacer(Modifier.width(8.dp))
-        Text("$value/$max")
     }
 }
+
