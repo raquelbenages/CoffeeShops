@@ -8,9 +8,12 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Share
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.material.icons.outlined.Star
 import androidx.compose.material3.*
@@ -59,15 +62,14 @@ fun CoffeeShopsApp() {
     }
 }
 
-// ---------- UI común ----------
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTopAppBar(title: String) {
     var show by remember { mutableStateOf(false) }
+
     TopAppBar(
-        modifier = Modifier
-            .background(Color(0xFFFF80AB)),
-            colors = TopAppBarDefaults.topAppBarColors(
+        modifier = Modifier.background(Color(0xFFFF80AB)),
+        colors = TopAppBarDefaults.topAppBarColors(
             containerColor = Color(0xFFFF80AB),
             titleContentColor = Color.White,
             navigationIconContentColor = Color.White,
@@ -79,13 +81,42 @@ fun MyTopAppBar(title: String) {
         },
         actions = {
             IconButton(onClick = { show = !show }) { Icon(Icons.Filled.MoreVert, null) }
+
             DropdownMenu(expanded = show, onDismissRequest = { show = false }) {
-                DropdownMenuItem(text = { Text("Settings") }, onClick = { show = false })
-                DropdownMenuItem(text = { Text("Help") }, onClick = { show = false })
+                // Fondo y forma personalizada del menú
+                Surface(
+                    color = Color(0xFFFFC1D9), // rosado claro
+                    shape = RoundedCornerShape(12.dp),
+                    shadowElevation = 8.dp
+                ) {
+                    Column(Modifier.width(IntrinsicSize.Min)) {
+                        DropdownMenuItem(
+                            text = { Text("Compartir") },
+                            onClick = { show = false },
+                            leadingIcon = { Icon(Icons.Default.Share, contentDescription = null) },
+                            colors = MenuDefaults.itemColors(
+                                textColor = Color.Black,
+                                leadingIconColor = Color.Black,
+                                trailingIconColor = Color.Black
+                            )
+                        )
+                        DropdownMenuItem(
+                            text = { Text("Álbum") },
+                            onClick = { show = false },
+                            leadingIcon = { Icon(Icons.Default.Lock, contentDescription = null) },
+                            colors = MenuDefaults.itemColors(
+                                textColor = Color.Black,
+                                leadingIconColor = Color.Black,
+                                trailingIconColor = Color.Black
+                            )
+                        )
+                    }
+                }
             }
         }
     )
 }
+
 
 // ---------- Pantalla lista ----------
 @OptIn(ExperimentalMaterial3Api::class)
